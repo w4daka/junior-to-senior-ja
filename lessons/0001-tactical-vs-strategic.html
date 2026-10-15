@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0001 戦術と戦略を見分ける — 戦略的プログラマーへの第一歩</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+<main>
+<header>
+<p class="kicker">Lesson 0001 · 所要10分 · MISSION対応</p>
+<h1>戦術と戦略を見分ける</h1>
+<p class="muted">ゴール: 昨日の自分の作業を「戦術／戦略」に5分で分類し、次にAIへ振る作業を1つ選べる。</p>
+</header>
+
+<h2>1. 知識: 定義はこれだけ</h2>
+<table>
+<tr><th>区分</th><th>問い</th><th>例</th></tr>
+<tr><td><strong>戦術</strong></td><td>正しく速く書けたか</td><td>関数実装、型修正、テスト追加、リファクタの実行</td></tr>
+<tr><td><strong>戦略</strong></td><td>何を作らず、何を検証するか決めたか</td><td>目的・制約・検証方法の言語化、blast radius判定、QA計画、設計記録</td></tr>
+</table>
+<p>判断基準: その作業が<strong>AIに丸投げ可能なら戦術</strong>、<strong>人間が責任を持つ判断なら戦略</strong>。戦略の密度が価値を決める。詳細は <a href="../reference/strategic-cheatsheet.html">戦略チートシート</a> に圧縮した。</p>
+
+<h2>2. 実技: 昨日を分類せよ（5分）</h2>
+<p>紙かエディタに昨日の作業を3つ書き、各々に T（戦術）/ S（戦略）と付ける。Sがゼロなら、それが課題だ。</p>
+
+<div class="quiz" id="q1">
+<p><strong>Q1. 「決済リトライの仕様を3案出し、検証方法まで決めた」</strong></p>
+<button data-v="ng">関数を素早く書き上げた</button>
+<button data-v="ok">方針と検証手段を定めた</button>
+<button data-v="ng">型エラーを速やかに直した</button>
+<button data-v="ng">テストを機械的に増やした</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<div class="quiz" id="q2">
+<p><strong>Q2. 「変更影響を説明しQA計画を立てた」</strong></p>
+<button data-v="ng">差分を大量に生成した</button>
+<button data-v="ng">命名を整えて読みやすくした</button>
+<button data-v="ok">破壊範囲と確認手順を示した</button>
+<button data-v="ng">定型文を自動で挿入した</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<div class="quiz" id="q3">
+<p><strong>Q3. 戦略的行動はどれか</strong></p>
+<button data-v="ng">指示通りにコードを書いた</button>
+<button data-v="ng">警告を片っ端から消した</button>
+<button data-v="ng">生成物をそのまま納品した</button>
+<button data-v="ok">作らないものを明示した</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<h2>3. 今日の一手</h2>
+<p>次の実装前に、チャット欄にこの3行を書いてからAIに投げろ:</p>
+<p><code>目的: ／ 制約: ／ 検証: </code></p>
+<p class="muted">例 — 目的: 誤二重課金を止める ／ 制約: 既存API変更なし ／ 検証: リトライ3回時の課金回数テスト。</p>
+
+<h2>一次資料</h2>
+<p>John Ousterhout, <em>A Philosophy of Software Design</em> — 複雑さは判断で減らす、という立場。まず第1章だけ読め。(<a href="https://web.stanford.edu/~ouster/cgi-bin/book.php">公式ページ</a>)</p>
+
+<footer>
+<p class="muted">詰まったらエージェントに質問しろ。お前の教師として使うのが前提だ。次回: <em>0002 変更のblast radiusを読む</em> の予定。Mission: <a href="../MISSION.md">MISSION.md</a> · 資源: <a href="../RESOURCES.md">RESOURCES.md</a></p>
+</footer>
+</main>
+<script>
+document.querySelectorAll('.quiz').forEach(function(q){
+  var fb = q.querySelector('.fb');
+  q.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(b.dataset.v === 'ok'){ fb.textContent = '○ 正解。その判断を今日の一手で再現しろ。'; fb.className='fb ok'; }
+      else { fb.textContent = '× 不正解。それは戦術だ。表の「問い」に戻れ。'; fb.className='fb ng'; }
+    });
+  });
+});
+</script>
+</body>
+</html>

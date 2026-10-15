@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0002 一人開発の最小戦略ループ — SWE基礎の最初の一周</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+<main>
+<header>
+<p class="kicker">Lesson 0002 · 所要60分 · 前提: <a href="./0001-tactical-vs-strategic.html">0001</a></p>
+<h1>一人開発の最小戦略ループ</h1>
+<p class="muted">ゴール: このリポジトリで「目的・制約・検証・記録」を一周させ、SWEが何かを手で理解する。</p>
+</header>
+
+<h2>1. 知識: SWEとは何か（3分）</h2>
+<p>コーディングは書くこと。SWEは<strong>書く前後の判断</strong>だ。一人でもこの4点は外せない:</p>
+<table>
+<tr><th>手順</th><th>問い</th><th>今回の作業</th></tr>
+<tr><td>目的</td><td>何のためにやるか</td><td>10分で書ける文にする</td></tr>
+<tr><td>制約</td><td>何をやらないか</td><td>2項目に絞る</td></tr>
+<tr><td>検証</td><td>どう確認するか</td><td>目視手順を3行にする</td></tr>
+<tr><td>記録</td><td>何を残すか</td><td>判断を1件残す</td></tr>
+</table>
+<p>根拠は <a href="../RESOURCES.md">RESOURCES.md</a> の <em>Software Engineering at Google</em> 第1章。「時間経過と変更に耐える」がSWEの定義だ。</p>
+
+<h2>2. 実技: 60分の配分</h2>
+<p><strong>(0–15分) 目的・制約・検証を書く。</strong>題材はこのリポジトリでいい。例:</p>
+<p><code>目的: 次課の教材を決める ／ 制約: 新規依存なし・1課10分 ／ 検証: 目次を見て迷いなく選べる</code></p>
+<p><strong>(15–35分) 最小QA。</strong>コードを触る前に検証手順を先に書け。例: ①HTMLをブラウザで開く ②クイズ3問を解く ③表示崩れなし、のチェックリスト化。</p>
+<p><strong>(35–55分) 記録を1件残す。</strong><code>docs/adr/0001-xxx.md</code> を1件作る。中身は5行でいい: 背景・決定・代替案・理由・検証。判断の化石だ。</p>
+<p><strong>(55–60分) 振り返り。</strong>下のクイズで確認しろ。</p>
+
+<div class="quiz" id="q1">
+<p><strong>Q1. SWEの定義に近いのは</strong></p>
+<button data-v="ng">速く大量に書く技術だ</button>
+<button data-v="ng">新言語を学び続ける事だ</button>
+<button data-v="ok">変更に耐える判断の束だ</button>
+<button data-v="ng">機械に任せ切る手法だ</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<div class="quiz" id="q2">
+<p><strong>Q2. 一人開発で最初に書くのは</strong></p>
+<button data-v="ng">実装コードの全体像だ</button>
+<button data-v="ok">検証手順と合格基準だ</button>
+<button data-v="ng">依存庫の導入計画だ</button>
+<button data-v="ng">最適化の方針文書だ</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<h2>3. 一次資料</h2>
+<p><em>Software Engineering at Google</em> 第1章 “What Is Software Engineering?”（無料公開版）だけ読め。分厚い本の残りは今は要らない。(<a href="https://abseil.io/resources/swe-book">公式</a>)</p>
+
+<footer>
+<p class="muted">詰まったらエージェントに聞け。例: 「このADRの代替案が思いつかない」「検証3行を添削しろ」。Mission: <a href="../MISSION.md">MISSION.md</a> · 前課: <a href="./0001-tactical-vs-strategic.html">0001</a> · 要点: <a href="../reference/strategic-cheatsheet.html">チートシート</a></p>
+</footer>
+</main>
+<script>
+document.querySelectorAll('.quiz').forEach(function(q){
+  var fb = q.querySelector('.fb');
+  q.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(b.dataset.v === 'ok'){ fb.textContent = '○ 正解。そのまま手を動かせ。'; fb.className='fb ok'; }
+      else { fb.textContent = '× 不正解。表の「問い」に戻れ。'; fb.className='fb ng'; }
+    });
+  });
+});
+</script>
+</body>
+</html>
