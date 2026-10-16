@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0003 検証先行で作る自動セーブ — 最小QAの一周</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+<main>
+<header>
+<p class="kicker">Lesson 0003 · 所要60分 · 前提: <a href="./0002-solo-strategy-loop.html">0002</a></p>
+<h1>検証先行で作る自動セーブ</h1>
+<p class="muted">ゴール: insertを抜けたら自動セーブするlua片をフルスクラッチし、QA手順で合格させる。</p>
+</header>
+
+<h2>1. 知識: 検証を先に書く（5分）</h2>
+<p>今回の仕様は1文だ: <strong>insertモードを抜けたら未保存変更を自動保存する</strong>。書く前に検証3行を固定しろ。例:</p>
+<p><code>①無名バッファでは保存しない ／ ②名前付き変更ありで抜けたら保存される ／ ③変更なしでは何も起きない</code></p>
+<p>根拠: 検証が先にあれば実装は検証に縛られる。(<a href="../RESOURCES.md">RESOURCES</a>のGoogle Testing方針)</p>
+
+<h2>2. 実技: 60分の配分</h2>
+<p><strong>(0–10分) 目的・制約・検証を書く。</strong>例 — 目的: 手動保存を忘れて消す事故を潰す ／ 制約: 外部依存なし・単一lua・既存設定を壊さない ／ 検証: 上記3行。</p>
+<p><strong>(10–25分) 既存実装を読む。</strong>他人のautosave実装を1つ開き、使うautocmdだけ抜き出せ。読むのは全体じゃない。イベント名と保存コマンドの2点だ。</p>
+<p><strong>(25–45分) フルスクラッチで書く。</strong>ヒントだけ渡す: <code>:h InsertLeave</code>、<code>vim.api.nvim_create_autocmd</code>、保存は <code>silent write</code> 相当。コピペ禁止。自力で10行以内に収めろ。</p>
+<p><strong>(45–55分) QA実行。</strong>検証3行を上から潰す。落ちたら直して再実行。目視でいい。記録しろ。</p>
+<p><strong>(55–60分) 記録。</strong><code>docs/adr/0001-autosave.md</code> に決定・代替案（イベント選択・保存方式）・没理由を残す。</p>
+
+<div class="quiz" id="q1">
+<p><strong>Q1. 検証先行とは何か</strong></p>
+<button data-v="ng">実装物を先に書き上げる</button>
+<button data-v="ok">検証手順を先に定める</button>
+<button data-v="ng">依存庫を先に導入する</button>
+<button data-v="ng">最適化を先に施すこと</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<div class="quiz" id="q2">
+<p><strong>Q2. insertを抜けた時のイベントは</strong></p>
+<button data-v="ok">InsertLeave</button>
+<button data-v="ng">InsertEnter</button>
+<button data-v="ng">BufEnter</button>
+<button data-v="ng">BufLeave</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<div class="quiz" id="q3">
+<p><strong>Q3. 無名バッファの扱いで正しいのは</strong></p>
+<button data-v="ng">強制的に保存を試みる</button>
+<button data-v="ng">警告なく上書き保存する</button>
+<button data-v="ng">毎回名前を付けて保存</button>
+<button data-v="ok">保存せず静かに何もしない</button>
+<p class="fb" aria-live="polite"></p>
+</div>
+
+<h2>3. 一次資料</h2>
+<p>Neovim公式 <em>lua-guide</em> のautocmd節だけ読め。残りは今は要らない。(<a href="https://neovim.io/doc/user/lua-guide.html">公式</a>)</p>
+
+<footer>
+<p class="muted">詰まったらエージェントに聞け。例: 「autocmdの候補を読んだが選べない」「検証2行目が通らない」。前課: <a href="./0002-solo-strategy-loop.html">0002</a> · 要点: <a href="../reference/strategic-cheatsheet.html">チートシート</a></p>
+</footer>
+</main>
+<script>
+document.querySelectorAll('.quiz').forEach(function(q){
+  var fb = q.querySelector('.fb');
+  q.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(b.dataset.v === 'ok'){ fb.textContent = '○ 正解。手を動かせ。'; fb.className='fb ok'; }
+      else { fb.textContent = '× 不正解。本文の太字に戻れ。'; fb.className='fb ng'; }
+    });
+  });
+});
+</script>
+</body>
+</html>
